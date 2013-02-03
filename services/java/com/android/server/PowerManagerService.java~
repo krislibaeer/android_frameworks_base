@@ -2469,7 +2469,7 @@ public class PowerManagerService extends IPowerManager.Stub
                     final boolean doScreenAnim = (mask & (SCREEN_BRIGHT_BIT | SCREEN_ON_BIT)) != 0;
                     final boolean turningOff = endValue == PowerManager.BRIGHTNESS_OFF;
                     if (turningOff && doScreenAnim) {
-                        if (!mQualcommElectronBeam) {
+                       if (!mQualcommElectronBeam) {
                             // Cancel all pending animations since we're turning off
                              mScreenBrightnessHandler.removeCallbacksAndMessages(null);
                              screenOffFinishedAnimatingLocked(mScreenOffReason);

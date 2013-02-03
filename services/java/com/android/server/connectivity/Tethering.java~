@@ -604,7 +604,7 @@ public class Tethering extends INetworkManagementEventObserver.Stub {
                     usbManager.setCurrentFunction(UsbManager.USB_FUNCTION_RNDIS, false);
                     interfaceStatusChanged("usb0", true);
                 }
-    tetherUsb(true);
+		tetherUsb(true);
             } else {
                 tetherUsb(false);
                 usbManager.setCurrentFunction(null, false);

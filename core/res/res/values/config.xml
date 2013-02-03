@@ -976,5 +976,6 @@
 
     <!-- Set to true for Tegra3 devices -->
     <bool name="config_isTegra3">false</bool>
-
+    <!-- Boolean to enable electron beam animation to be shown on Qualcomm devices -->
+    <bool name="config_qualcommElectronBeam">false</bool>
 </resources>

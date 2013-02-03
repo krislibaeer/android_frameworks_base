@@ -4091,7 +4091,4 @@
   <java-symbol type="id" name="timeDisplayHours" />
   <java-symbol type="id" name="timeDisplayMinutes" />
 
-  <!-- Qualcomm electron beam -->
-  <java-symbol type="bool" name="config_qualcommElectronBeam" />
-
 </resources>
