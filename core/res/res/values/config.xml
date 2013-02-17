@@ -995,5 +995,5 @@
     <bool name="config_isTegra3">false</bool>
 
     <!-- Boolean to enable electron beam animation to be shown on Qualcomm devices -->
-    <bool name="config_qualcommElectronBeam">true</bool>
+    <bool name="config_qualcommElectronBeam">false</bool>
 </resources>
