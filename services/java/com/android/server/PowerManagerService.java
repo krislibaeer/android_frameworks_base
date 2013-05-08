@@ -181,12 +181,12 @@ public class PowerManagerService extends IPowerManager.Stub
     boolean mAnimateScreenLights = true;
     boolean mQualcommElectronBeam = false;
 
-    static final int ANIM_STEPS = 60; // nominal # of frames at 60Hz
+    static final int ANIM_STEPS = 30; // nominal # of frames at 60Hz
     // Slower animation for autobrightness changes
     static final int AUTOBRIGHTNESS_ANIM_STEPS = 2 * ANIM_STEPS;
     // Even slower animation for autodimness changes. Set to max to effectively disable dimming.
     // Note 100 is used to keep the mWindowScaleAnimation scaling below from overflowing an int.
-    static final int AUTODIMNESS_ANIM_STEPS = Integer.MAX_VALUE / (NOMINAL_FRAME_TIME_MS * 100);
+    static final int AUTODIMNESS_ANIM_STEPS = 110 * ANIM_STEPS;
     // Number of steps when performing a more immediate brightness change.
     static final int IMMEDIATE_ANIM_STEPS = 4;
 
@@ -2757,7 +2757,12 @@ public class PowerManagerService extends IPowerManager.Stub
             }
             // This is the range of brightness values that we can use.
             final int minval = values[0];
-            final int maxval = values[mAutoBrightnessLevels.length];
+            final int maxval;
+            if (mCustomLightEnabled) {
+		maxval = values[mCustomLightLevels.length];
+            } else {
+		maxval = values[mAutoBrightnessLevels.length];
+		}	
             if (minval > maxval) {
                 // this is a button or keyboard brightness where brightness
                 // is in reversed order to sensor values
@@ -2975,10 +2980,10 @@ public class PowerManagerService extends IPowerManager.Stub
             mLightSensorValue = value;
             if ((mPowerState & BATTERY_LOW_BIT) == 0) {
                 // use maximum light sensor value seen since screen went on for LCD to avoid flicker
-                // we only do this if we are undocked, since lighting should be stable when
+                // we only do this if we are docked, since lighting should be stable when
                 // stationary in a dock.
                 int lcdValue = getAutoBrightnessValue(
-                        (mIsDocked ? value : mHighestLightSensorValue),
+                        (mIsDocked ? mHighestLightSensorValue : value),
                         mLastLcdValue,
                         (mCustomLightEnabled ? mCustomLightLevels : mAutoBrightnessLevels),
                         (mCustomLightEnabled ? mCustomLcdValues : mLcdBacklightValues));

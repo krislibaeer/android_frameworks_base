@@ -117,7 +117,7 @@ public final class GsmDataConnectionTracker extends DataConnectionTracker {
 
     public int getRecoveryAction() {
         int action = Settings.System.getInt(mPhone.getContext().getContentResolver(),
-                "radio.data.stall.recovery.action", RecoveryAction.GET_DATA_CALL_LIST);
+                "radio.data.stall.recovery.action", RecoveryAction.CLEANUP);
         if (VDBG) log("getRecoveryAction: " + action);
         return action;
     }
@@ -625,7 +625,7 @@ public final class GsmDataConnectionTracker extends DataConnectionTracker {
             // update APN availability so that APN can be enabled.
             notifyOffApnsOfAvailability(Phone.REASON_DATA_ATTACHED);
         }
-
+        mAutoAttachOnCreation = true;
         setupDataOnReadyApns(Phone.REASON_DATA_ATTACHED);
     }
 
@@ -1520,7 +1520,7 @@ public final class GsmDataConnectionTracker extends DataConnectionTracker {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {}
                 restartRadio();
-                putRecoveryAction(RecoveryAction.GET_DATA_CALL_LIST);
+                putRecoveryAction(RecoveryAction.CLEANUP);
                 break;
             default:
                 throw new RuntimeException("doRecovery: Invalid recoveryAction=" +
@@ -1587,7 +1587,7 @@ public final class GsmDataConnectionTracker extends DataConnectionTracker {
         if ( sent > 0 && received > 0 ) {
             if (VDBG) log("updateDataStallInfo: IN/OUT");
             mSentSinceLastRecv = 0;
-            putRecoveryAction(RecoveryAction.GET_DATA_CALL_LIST);
+            putRecoveryAction(RecoveryAction.CLEANUP);
         } else if (sent > 0 && received == 0) {
             if (mPhone.getState() == Phone.State.IDLE) {
                 mSentSinceLastRecv += sent;
@@ -1601,7 +1601,7 @@ public final class GsmDataConnectionTracker extends DataConnectionTracker {
         } else if (sent == 0 && received > 0) {
             if (VDBG) log("updateDataStallInfo: IN");
             mSentSinceLastRecv = 0;
-            putRecoveryAction(RecoveryAction.GET_DATA_CALL_LIST);
+            putRecoveryAction(RecoveryAction.CLEANUP);
         } else {
             if (VDBG) log("updateDataStallInfo: NONE");
         }
